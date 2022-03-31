@@ -2,18 +2,16 @@
     ViewData["Title"] = "Home Page";
 }
 
-@{
-    ViewData["Title"] = "Home Page";
-}
 
-@model List<Bowler>
+@model BowlersViewModel
+
 
 <h1 class="mb-4 ">Bowlers</h1>
 
-<ul>
-    @foreach (Bowler b in Model)
-    {
-    <li>@b.BowlerID - @b.BowlerFirstName @b.BowlerMiddleInit @b.BowlerLastName - @b.BowlerAddress @b.BowlerCity, @b.BowlerState @b.BowlerZip - @b.BowlerPhoneNumber </li>
+@foreach (Bowler b in Model.Bowlers)
+{
+    <partial name="BowlerSummary" model="b" />
+}
 
-    }
-</ul>
+<div page-blah="@Model.PageInfo" page-action="Index" page-class="btn" page-class-enabled="true"
+     page-class-normal="btn-outline-dark" page-class-selected="btn-primary" class="btn-group pull-right m-1"> </div>

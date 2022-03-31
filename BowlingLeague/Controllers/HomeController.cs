@@ -1,4 +1,5 @@
 ﻿using BowlingLeague.Models;
+using BowlingLeague.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -19,12 +20,30 @@ namespace BowlingLeague.Controllers
             repo = temp;
         }
 
-   
-        public IActionResult Index()
-        {
-            var data = repo.Bowlers.ToList();
 
-            return View(data);
+        public IActionResult Index(int teamnumber, int pageNum = 1)
+        {
+            int pageSize = 5;
+
+            var x = new BowlersViewModel
+            {
+                Bowlers = repo.Bowlers
+                .Where(p => p.TeamID == teamnumber || teamnumber == 1)
+                .OrderBy(b => b.BowlerFirstName)
+                .Skip((pageNum - 1) * pageSize)
+                .Take(pageSize),
+
+                PageInfo = new PageInfo
+                {
+                    TotalNumBooks = (teamnumber == 1
+                        ? repo.Bowlers.Count()
+                        : repo.Bowlers.Where(x => x.TeamID == teamnumber).Count()),
+                    BooksPerPage = pageSize,
+                    CurrentPage = pageNum
+                }
+            };
+
+            return View(x);
             
         }
 

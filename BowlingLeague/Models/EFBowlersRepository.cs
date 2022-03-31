@@ -15,5 +15,24 @@ namespace BowlingLeague.Models
             context = temp;
         }
         public IQueryable<Bowler> Bowlers => context.Bowlers;
+
+        //methods for saving adding and updated books
+
+        public void SaveBowler(Bowler b)
+        {
+            context.SaveChanges();
+        }
+
+        public void CreateBowler(Bowler b)
+        {
+            context.Add(b);
+            context.SaveChanges();
+        }
+
+        public void DeleteBowler(Bowler b)
+        {
+            context.Remove(b);
+            context.SaveChanges();
+        }
     }
 }
