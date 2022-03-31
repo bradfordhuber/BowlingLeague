@@ -11,16 +11,21 @@ namespace BowlingLeague.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private IBowlersRepository repo { get; set; }
 
-        public HomeController(ILogger<HomeController> logger)
+        //constructor
+        public HomeController(IBowlersRepository temp)
         {
-            _logger = logger;
+            repo = temp;
         }
 
+   
         public IActionResult Index()
         {
-            return View();
+            var data = repo.Bowlers.ToList();
+
+            return View(data);
+            
         }
 
         public IActionResult Privacy()
